@@ -1,8 +1,4 @@
 # Auto-GPT: An Autonomous GPT-4 Experiment
-### 🔴 🔴 🔴  Urgent: USE `stable` not `master`  🔴 🔴 🔴
-We've improved our workflow. `master` will often be **in a broken state**.
-Download the latest `stable` release here: https://github.com/Torantulino/Auto-GPT/releases/latest
-This information SUPERCEDES any following information. Takes precedence. Do this not that.
 
 ![GitHub Repo stars](https://img.shields.io/github/stars/Torantulino/auto-gpt?style=social)
 [![Twitter Follow](https://img.shields.io/twitter/follow/siggravitas?style=social)](https://twitter.com/SigGravitas)
@@ -35,27 +31,22 @@ Your support is greatly appreciated
 ## Table of Contents
 
 - [Auto-GPT: An Autonomous GPT-4 Experiment](#auto-gpt-an-autonomous-gpt-4-experiment)
-    - [🔴 🔴 🔴  Urgent: USE `stable` not `master`  🔴 🔴 🔴](#----urgent-use-stable-not-master----)
-    - [Demo (30/03/2023):](#demo-30032023)
+  - [Demo (30/03/2023):](#demo-30032023)
   - [Table of Contents](#table-of-contents)
   - [🚀 Features](#-features)
   - [📋 Requirements](#-requirements)
   - [💾 Installation](#-installation)
   - [🔧 Usage](#-usage)
     - [Logs](#logs)
-    - [Docker](#docker)
-    - [Command Line Arguments](#command-line-arguments)
   - [🗣️ Speech Mode](#️-speech-mode)
   - [🔍 Google API Keys Configuration](#-google-api-keys-configuration)
     - [Setting up environment variables](#setting-up-environment-variables)
-  - [Memory Backend Setup](#memory-backend-setup)
-    - [Redis Setup](#redis-setup)
-    - [🌲 Pinecone API Key Setup](#-pinecone-api-key-setup)
-    - [Milvus Setup](#milvus-setup)
+  - [Redis Setup](#redis-setup)
+  - [🌲 Pinecone API Key Setup](#-pinecone-api-key-setup)
     - [Setting up environment variables](#setting-up-environment-variables-1)
   - [Setting Your Cache Type](#setting-your-cache-type)
   - [View Memory Usage](#view-memory-usage)
-  - [🧠 Memory pre-seeding](#-memory-pre-seeding)
+  - [🧠 Memory pre-seeding](#memory-pre-seeding)
   - [💀 Continuous Mode ⚠️](#-continuous-mode-️)
   - [GPT3.5 ONLY Mode](#gpt35-only-mode)
   - [🖼 Image Generation](#-image-generation)
@@ -80,11 +71,10 @@ Your support is greatly appreciated
   - [Python 3.8 or later](https://www.tutorialspoint.com/how-to-install-python-in-windows)
 - [OpenAI API key](https://platform.openai.com/account/api-keys)
 
+
 Optional:
 
-- Memory backend
-  - [PINECONE API key](https://www.pinecone.io/) (If you want Pinecone backed memory)
-  - [Milvus](https://milvus.io/) (If you want Milvus as memory backend)
+- [PINECONE API key](https://www.pinecone.io/) (If you want Pinecone backed memory)
 - ElevenLabs Key (If you want the AI to speak)
 
 ## 💾 Installation
@@ -117,7 +107,7 @@ pip install -r requirements.txt
 ```
 
 5. Rename `.env.template` to `.env` and fill in your `OPENAI_API_KEY`. If you plan to use Speech Mode, fill in your `ELEVEN_LABS_API_KEY` as well.
-  - See [OpenAI API Keys Configuration](#openai-api-keys-configuration) to obtain your OpenAI API key.
+  - Obtain your OpenAI API key from: https://platform.openai.com/account/api-keys.
   - Obtain your ElevenLabs API key from: https://elevenlabs.io. You can view your xi-api-key using the "Profile" tab on the website.
   - If you want to use GPT on an Azure instance, set `USE_AZURE` to `True` and then:
     - Rename `azure.yaml.template` to `azure.yaml` and provide the relevant `azure_api_base`, `azure_api_version` and all of the deployment ids for the relevant models in the `azure_model_map` section:
@@ -129,11 +119,11 @@ pip install -r requirements.txt
 
 ## 🔧 Usage
 
-1. Run the `autogpt` Python module in your terminal:
+1. Run the `main.py` Python script in your terminal:
    _(Type this into your CMD window)_
 
 ```
-python -m autogpt
+python scripts/main.py
 ```
 
 2. After each of action, enter 'y' to authorise command, 'y -N' to run N continuous commands, 'n' to exit program, or enter additional feedback for the AI.
@@ -146,21 +136,7 @@ You will find activity and error logs in the folder `./output/logs`
 To output debug logs:
 
 ```
-python -m autogpt --debug
-```
-
-### Docker
-
-You can also build this into a docker image and run it:
-
-```
-docker build -t autogpt .
-docker run -it --env-file=./.env -v $PWD/auto_gpt_workspace:/app/auto_gpt_workspace autogpt
-```
-
-You can pass extra arguments, for instance, running with `--gpt3only` and `--continuous` mode:
-```
-docker run -it --env-file=./.env -v $PWD/auto_gpt_workspace:/app/auto_gpt_workspace autogpt --gpt3only --continuous
+python scripts/main.py --debug
 ```
 ### Command Line Arguments
 Here are some common arguments you can use when running Auto-GPT:
@@ -176,19 +152,8 @@ Here are some common arguments you can use when running Auto-GPT:
 Use this to use TTS for Auto-GPT
 
 ```
-python -m autogpt --speak
+python scripts/main.py --speak
 ```
-
-## OpenAI API Keys Configuration
-
-Obtain your OpenAI API key from: https://platform.openai.com/account/api-keys.
-
-To use OpenAI API key for Auto-GPT, you NEED to have billing set up (AKA paid account).
-
-You can set up paid account at https://platform.openai.com/account/billing/overview.
-
-![For OpenAI API key to work, set up paid account at OpenAI API > Billing](./docs/imgs/openai-api-key-billing-paid-account.png)
-
 
 ## 🔍 Google API Keys Configuration
 
@@ -226,11 +191,7 @@ export CUSTOM_SEARCH_ENGINE_ID="YOUR_CUSTOM_SEARCH_ENGINE_ID"
 
 ```
 
-## Memory Backend Setup
-
-Setup any one backend to persist memory.
-
-### Redis Setup
+## Redis Setup
 
 Install docker desktop.
 
@@ -267,25 +228,13 @@ You can specify the memory index for redis using the following:
 MEMORY_INDEX=whatever
 ```
 
-### 🌲 Pinecone API Key Setup
+## 🌲 Pinecone API Key Setup
 
 Pinecone enables the storage of vast amounts of vector-based memory, allowing for only relevant memories to be loaded for the agent at any given time.
 
 1. Go to [pinecone](https://app.pinecone.io/) and make an account if you don't already have one.
 2. Choose the `Starter` plan to avoid being charged.
 3. Find your API key and region under the default project in the left sidebar.
-
-### Milvus Setup
-
-[Milvus](https://milvus.io/) is a open-source, high scalable vector database to storage huge amount of vector-based memory and provide fast relevant search.
-
-- setup milvus database, keep your pymilvus version and milvus version same to avoid compatible issues.
-  - setup by open source [Install Milvus](https://milvus.io/docs/install_standalone-operator.md)
-  - or setup by [Zilliz Cloud](https://zilliz.com/cloud)
-- set `MILVUS_ADDR` in `.env` to your milvus address `host:ip`.
-- set `MEMORY_BACKEND` in `.env` to `milvus` to enable milvus as backend.
-- optional
-  - set `MILVUS_COLLECTION` in `.env` to change milvus collection name as you want, `autogpt` is the default name.
 
 ### Setting up environment variables
 
@@ -366,7 +315,7 @@ Memories will be available to the AI immediately as they are ingested, even if i
 In the example above, the script initializes the memory, ingests all files within the seed_data directory into memory with an overlap between chunks of 200 and a maximum length of each chunk of 4000.
 Note that you can also use the --file argument to ingest a single file into memory and that the script will only ingest files within the auto_gpt_workspace directory.
 
-You can adjust the max_length and overlap parameters to fine-tune the way the documents are presented to the AI when it "recall" that memory:
+You can adjust the max_length and overlap parameters to fine-tune the way the docuents are presented to the AI when it "recall" that memory:
 
 - Adjusting the overlap value allows the AI to access more contextual information from each chunk when recalling information, but will result in more chunks being created and therefore increase memory backend usage and OpenAI API requests.
 - Reducing the max_length value will create more chunks, which can save prompt tokens by allowing for more message history in the context, but will also increase the number of chunks.
@@ -379,10 +328,10 @@ Continuous mode is not recommended.
 It is potentially dangerous and may cause your AI to run forever or carry out actions you would not usually authorise.
 Use at your own risk.
 
-1. Run the `autogpt` python module in your terminal:
+1. Run the `main.py` Python script in your terminal:
 
 ```
-python -m autogpt --speak --continuous
+python scripts/main.py --continuous
 
 ```
 
@@ -393,7 +342,7 @@ python -m autogpt --speak --continuous
 If you don't have access to the GPT4 api, this mode will allow you to use Auto-GPT!
 
 ```
-python -m autogpt --speak --gpt3only
+python scripts/main.py --gpt3only
 ```
 
 It is recommended to use a virtual machine for tasks that require high security measures to prevent any potential harm to the main computer's system and data.
@@ -409,10 +358,6 @@ IMAGE_PROVIDER=sd
 HUGGINGFACE_API_TOKEN="YOUR_HUGGINGFACE_API_TOKEN"
 ```
 
-## Selenium
-
-sudo Xvfb :10 -ac -screen 0 1024x768x24 &
-DISPLAY=:10 your-client
 ## ⚠️ Limitations
 
 This experiment aims to showcase the potential of GPT-4 but comes with some limitations:
@@ -470,8 +415,8 @@ This project uses [flake8](https://flake8.pycqa.org/en/latest/) for linting. We 
 To run the linter, run the following command:
 
 ```
-flake8 autogpt/ tests/
+flake8 scripts/ tests/
 
 # Or, if you want to run flake8 with the same configuration as the CI:
-flake8 autogpt/ tests/ --select E303,W293,W291,W292,E305,E231,E302
+flake8 scripts/ tests/ --select E303,W293,W291,W292,E305,E231,E302
 ```
