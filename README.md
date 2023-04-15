@@ -51,3 +51,6 @@ Auto-GPT可能会在用户授权后执行任何命令，其中包括：
 自行编写并执行python脚本，调用浏览器阅读，创建本地文件。
 ```
 为了防止非预期情况，请尽量在虚拟机环境下运行；或者请仔细阅读AI反馈的`下一步要执行的命令`
+
+## 交流群
+<image src="https://github.com/anignx/Auto-GPT-Translate/blob/master/IMG_9950.jpg?raw=true">
